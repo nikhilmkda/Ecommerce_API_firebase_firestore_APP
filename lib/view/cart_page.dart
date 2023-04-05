@@ -104,7 +104,7 @@ class _Cart_pageState extends State<Cart_page> {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                childAspectRatio: 1.5,
+                childAspectRatio: 1.65,
               ),
               itemCount: hivecall.itemscart.length,
               itemBuilder: (BuildContext context, int index) {

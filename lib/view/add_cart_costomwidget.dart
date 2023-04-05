@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
-
 class Custom_widget_cart extends StatelessWidget {
   final String itemName;
   final int quantityItem;
@@ -139,20 +136,22 @@ class Custom_widget_cart extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 10, left: 0),
+                          padding: const EdgeInsets.only(bottom: 0, left: 0),
                           child: Container(
-                            width: width / 2,
+                            height: height / 19,
+                            width: width / 1.6,
                             child: Text(
                               itemName,
                               style: TextStyle(
-                                  fontSize: height / 38,
+                                  fontSize: height / 40,
                                   color: Color.fromARGB(166, 0, 0, 0),
+                                  // overflow: TextOverflow.ellipsis,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 20),
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: Row(
                             children: [
                               Icon(Icons.star,
@@ -215,10 +214,10 @@ class Custom_widget_cart extends StatelessWidget {
                       ]),
                 ]),
                 Padding(
-                  padding: const EdgeInsets.only(left: 45, right: 45, top: 5),
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
                   child: Container(
-                    height: 2,
-                    color: Colors.grey.shade300,
+                    height: 3,
+                    color: Colors.white,
                   ),
                 ),
               ],
