@@ -5,7 +5,7 @@ import 'package:flutter_application_e_commerse_app_with_api/user_details/google_
 import 'package:flutter_application_e_commerse_app_with_api/user_details/user_profile.dart';
 import 'package:provider/provider.dart';
 
-import 'api_call.dart';
+import '../controller/api_call.dart';
 
 class DrawerScreen extends StatelessWidget {
   final String fullName;

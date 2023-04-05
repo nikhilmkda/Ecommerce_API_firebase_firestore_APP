@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_e_commerse_app_with_api/user_details/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
-import '../api_call.dart';
-import '../homepage.dart';
+import '../controller/api_call.dart';
+import '../view/homepage.dart';
 
 import 'get_user_data.dart';
 

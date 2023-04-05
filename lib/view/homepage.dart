@@ -8,9 +8,9 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'costom_widget.dart';
 
-import 'api_call.dart';
+import '../controller/api_call.dart';
 import 'drawer.dart';
-import 'hive_save.dart';
+import '../controller/hive_save.dart';
 
 class MyHomePage extends StatefulWidget {
   @override

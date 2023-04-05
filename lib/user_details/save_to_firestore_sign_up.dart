@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../api_call.dart';
+import '../controller/api_call.dart';
 import 'get_user_data.dart';
 
 class SignUpScreen extends StatelessWidget {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'api_call.dart';
-import 'hive_save.dart';
+import '../controller/api_call.dart';
+import '../controller/hive_save.dart';
 
 class CustomWidget extends StatelessWidget {
   final String imageUrl;
@@ -113,7 +113,7 @@ class CustomWidget extends StatelessWidget {
             ),
             Container(
               height: 2,
-              width: 140,
+              width: width,
               color: Colors.grey.shade100,
             ),
           ],
@@ -270,12 +270,12 @@ class CustomWidgetItemDetails extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      height: 280,
+                      height: height / 2.5,
                     ),
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(top: 14, left: 20, right: 20),
+                        const EdgeInsets.only(top: 40, left: 20, right: 20),
                     child: Container(
                       height: 250,
                       decoration: BoxDecoration(
@@ -295,22 +295,26 @@ class CustomWidgetItemDetails extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Container(
-                        height: 480,
+                        height: height / 1.75,
                         child: Column(
                           // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: SizedBox(
-                                height: 33,
+                                height: height / 18,
                                 child: Row(
                                   children: [
-                                    Text(
-                                      watchname,
-                                      style: TextStyle(
-                                          fontSize: 28,
-                                          color: Color.fromARGB(166, 0, 0, 0),
-                                          fontWeight: FontWeight.bold),
+                                    Expanded(
+                                      child: Text(
+                                        watchname,
+                                        style: TextStyle(
+                                            fontSize: height / 40,
+                                            color: Color.fromARGB(166, 0, 0, 0),
+                                            fontWeight: FontWeight.bold),
+                                        maxLines: null,
+                                        overflow: TextOverflow.visible,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -623,8 +627,8 @@ class CustomWidgetItemDetails extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              height: calculatedHeight(55),
-              width: calculatedWidth(195),
+              height: height / 13.2,
+              width: width / 2,
             ),
             InkWell(
               onTap: tapped,
@@ -640,7 +644,7 @@ class CustomWidgetItemDetails extends StatelessWidget {
                     ),
                   ],
                 ),
-                height: height / 13.12,
+                height: height / 13.2,
                 width: width / 2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

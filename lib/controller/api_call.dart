@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_e_commerse_app_with_api/user_details/save_to_firestore_sign_up.dart';
 import 'package:http/http.dart' as http;
 
-import 'cart_page.dart';
+import '../view/cart_page.dart';
 
-import 'homepage.dart';
-import 'user_details/log_in_page.dart';
-import 'model_class.dart';
+import '../view/homepage.dart';
+import '../user_details/log_in_page.dart';
+import '../model_class.dart';
 
 class DataProvider extends ChangeNotifier {
   int itemCount = 1;

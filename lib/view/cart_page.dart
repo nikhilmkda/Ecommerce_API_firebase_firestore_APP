@@ -4,8 +4,8 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 
 import 'add_cart_costomwidget.dart';
-import 'api_call.dart';
-import 'hive_save.dart';
+import '../controller/api_call.dart';
+import '../controller/hive_save.dart';
 import 'homepage.dart';
 
 class Cart_page extends StatefulWidget {
@@ -104,7 +104,7 @@ class _Cart_pageState extends State<Cart_page> {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                childAspectRatio: 1.6,
+                childAspectRatio: 1.5,
               ),
               itemCount: hivecall.itemscart.length,
               itemBuilder: (BuildContext context, int index) {
