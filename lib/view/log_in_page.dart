@@ -1,12 +1,14 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_e_commerse_app_with_api/user_details/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
-import '../view/homepage.dart';
+import 'homepage.dart';
 
-import 'get_user_data.dart';
+import '../user_details/get_user_data.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -46,7 +48,7 @@ class LoginScreen extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
                 image: NetworkImage(
-                    'https://mebincdn.themebin.com/1664962508289.png'),
+                    'https://img.freepik.com/free-vector/empty-street-with-transport-highway-cartoon-illustration_1441-3972.jpg'),
                 fit: BoxFit.cover),
             // gradient: LinearGradient(
             //   colors: [
@@ -64,11 +66,17 @@ class LoginScreen extends StatelessWidget {
                 left: width / 35,
                 right: width / 35,
                 top: height / 4,
-                child: Container(
-                  height: height / 1.9,
-                  decoration: BoxDecoration(
-                    color: Color(0xff121220),
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      height: height / 1.9,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.2),
+                        // color: Color(0xff121220),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                    ),
                   ),
                 ),
               ),

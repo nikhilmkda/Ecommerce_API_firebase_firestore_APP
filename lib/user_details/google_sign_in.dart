@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_e_commerse_app_with_api/user_details/user_profile.dart';
+import 'package:flutter_application_e_commerse_app_with_api/view/user_profile.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

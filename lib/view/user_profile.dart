@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'get_user_data.dart';
+import '../user_details/get_user_data.dart';
 
 class FormControllerProvider with ChangeNotifier {
   final TextEditingController _usernameController = TextEditingController();

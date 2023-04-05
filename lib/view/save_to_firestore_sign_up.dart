@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
-import 'get_user_data.dart';
+import '../user_details/get_user_data.dart';
 
 class SignUpScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -80,7 +80,7 @@ class SignUpScreen extends StatelessWidget {
                           SizedBox(
                             height: 70.0,
                             child: TextFormField(
-                              controller: _fullNameController,
+                              controller: _emailController,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter your email';
@@ -113,7 +113,7 @@ class SignUpScreen extends StatelessWidget {
                           SizedBox(
                             height: 70.0,
                             child: TextFormField(
-                              controller: _fullNameController,
+                              controller: _passwordController,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter your password';

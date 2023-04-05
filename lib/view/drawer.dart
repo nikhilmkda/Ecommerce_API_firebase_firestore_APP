@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_e_commerse_app_with_api/user_details/get_user_data.dart';
 import 'package:flutter_application_e_commerse_app_with_api/user_details/google_sign_in.dart';
-import 'package:flutter_application_e_commerse_app_with_api/user_details/user_profile.dart';
+import 'package:flutter_application_e_commerse_app_with_api/view/user_profile.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
