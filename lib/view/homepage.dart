@@ -6,6 +6,7 @@ import 'package:flutter_application_e_commerse_app_with_api/progress_indicator.d
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
+import '../controller/user_profile_provider.dart';
 import 'costom_widget.dart';
 
 import '../controller/api_call.dart';
@@ -37,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final hivecall = Provider.of<HiveHelper>(context);
     final getuser = Provider.of<UserDataProvider>(context);
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
+    final userDetails = Provider.of<FormControllerProvider>(context);
     var itemsOfAPI = dataProvider.productsofproduct;
     return Scaffold(
       key: _scaffoldKey,
@@ -52,9 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final data = snapshot.data!;
-                    return DrawerScreen('${data['name']}', '${data['email']}');
+                    return DrawerScreen(
+                        '${data['name']}',
+                        '${data['email']}',
+                        authenticationProvider.profilePictureUrl ??
+                            'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');
                   } else {
-                    return DrawerScreen('User not found', 'Email not found');
+                    return DrawerScreen('User not found', 'Email not found',
+                        'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');
                   }
                 },
               );
@@ -67,9 +74,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (snapshot.hasData) {
                     final data = snapshot.data!;
                     return DrawerScreen(
-                        '${data['fullName']}', '${data['email']}');
+                        '${data['fullName']}',
+                        '${data['email']}',
+                        userDetails.userFace ??
+                            'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');
                   } else {
-                    return DrawerScreen('User not found', 'Email not found');
+                    return DrawerScreen('User not found', 'Email not found',
+                        'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');
                   }
                 },
               );

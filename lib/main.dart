@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'controller/api_call.dart';
 
+import 'controller/user_profile_provider.dart';
 import 'view/homepage.dart';
 import 'view/log_in_page.dart';
 import 'package:firebase_core/firebase_core.dart';

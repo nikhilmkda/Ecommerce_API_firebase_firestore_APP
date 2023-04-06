@@ -15,7 +15,7 @@ class GoogleSignInProvider extends ChangeNotifier {
   GoogleSignInAccount? _user;
 
   GoogleSignInAccount get user => _user!;
-
+  final String? profilePictureUrl = userG?.photoURL;
   Future googlecurrentuser() async {
     final userDoc = FirebaseFirestore.instance.collection('users').doc(uid);
     final userData = await userDoc.get();
@@ -23,9 +23,10 @@ class GoogleSignInProvider extends ChangeNotifier {
       await userDoc.set({
         'fullName': _user!.displayName,
         'email': _user!.email,
-        'phone_number': '',
-        'address': '',
-        'age': ''
+        // 'phone_number': '',
+        // 'address': '',
+        // 'age': '',
+        'profilePictureUrl': profilePictureUrl
       });
     }
   }

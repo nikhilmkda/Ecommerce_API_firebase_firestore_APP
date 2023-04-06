@@ -1,35 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_e_commerse_app_with_api/user_details/image_picker.dart';
+import 'package:flutter_application_e_commerse_app_with_api/controller/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../controller/user_profile_provider.dart';
 import '../user_details/get_user_data.dart';
-
-class FormControllerProvider with ChangeNotifier {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-
-  // Getter methods for the controllers
-  TextEditingController get usernameController => _usernameController;
-  TextEditingController get phoneNumberController => _phoneNumberController;
-  TextEditingController get addressController => _addressController;
-  TextEditingController get ageController => _ageController;
-
-  // Helper method to clear all form field controllers
-  void clearFormFields() {
-    _usernameController.clear();
-    _phoneNumberController.clear();
-    _addressController.clear();
-    _ageController.clear();
-
-    notifyListeners();
-  }
-}
+import '../user_details/google_sign_in.dart';
 
 class ProfilePage extends StatefulWidget {
   final String userId;
@@ -84,6 +63,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final getuser = Provider.of<UserDataProvider>(context);
+    final userDetails = Provider.of<FormControllerProvider>(context);
+    final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -131,11 +112,33 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Center(
                   child: Container(
-                    child: CircleAvatar(
-                      radius: 120,
-                      backgroundImage: NetworkImage(
-                        'https://cdn-icons-png.flaticon.com/512/21/21104.png',
-                      ),
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 120,
+                          backgroundImage: userDetails.userFace != null
+                              ? NetworkImage(userDetails.userFace ??
+                                  'https://cdn-icons-png.flaticon.com/512/1077/1077114.png')
+                              : NetworkImage(authenticationProvider
+                                      .profilePictureUrl ??
+                                  'https://cdn-icons-png.flaticon.com/512/1077/1077114.png'),
+                        ),
+                        Positioned(
+                          bottom: 25.0,
+                          right: 0.0,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.camera_alt,
+                              color: Colors.white70,
+                              size: 40,
+                            ),
+                            onPressed: () {
+                              PswdImagePicker.pickImage(widget.userId);
+                              userDetails.dpimageUser(widget.userId);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     height: height * 0.28,
                   ),

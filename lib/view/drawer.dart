@@ -6,12 +6,14 @@ import 'package:flutter_application_e_commerse_app_with_api/view/user_profile.da
 import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
+import '../controller/user_profile_provider.dart';
 
 class DrawerScreen extends StatelessWidget {
   final String fullName;
   final String email;
+   final String profilePIC;
 
-  DrawerScreen(@required this.fullName, @required this.email);
+  DrawerScreen(@required this.fullName, @required this.email,  @required this.profilePIC);
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +47,8 @@ class DrawerScreen extends StatelessWidget {
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
-              backgroundImage: NetworkImage(
-                  'https://st.depositphotos.com/1779253/5140/v/600/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg'),
+              backgroundImage:
+                  NetworkImage(profilePIC),
             ),
           ),
           ListTile(
