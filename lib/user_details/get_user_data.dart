@@ -38,7 +38,8 @@ class UserDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> pswdUserprofilePictureUpdate(String userId, String imageUrl) async {
+  Future<void> pswdUserprofilePictureUpdate(
+      String userId, String imageUrl) async {
     await FirebaseFirestore.instance.collection('users').doc(userId).update({
       'profilePictureUrl': imageUrl,
     });

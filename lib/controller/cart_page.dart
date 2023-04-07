@@ -3,10 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 
-import 'add_cart_costomwidget.dart';
-import '../controller/api_call.dart';
-import '../controller/hive_save.dart';
-import 'homepage.dart';
+import '../view/add_cart_costomwidget.dart';
+import 'api_call.dart';
+import 'hive_save.dart';
+import '../view/homepage.dart';
 
 class Cart_page extends StatefulWidget {
   @override

@@ -94,8 +94,8 @@ class _ProfilePageState extends State<ProfilePage> {
           //     fit: BoxFit.cover),
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 7, 35, 106),
-              Color.fromARGB(255, 6, 3, 46),
+              Color.fromARGB(255, 34, 32, 27),
+              Color.fromARGB(255, 34, 32, 27),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -116,12 +116,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         CircleAvatar(
                           radius: 120,
-                          backgroundImage: userDetails.userFace != null
-                              ? NetworkImage(userDetails.userFace ??
-                                  'https://cdn-icons-png.flaticon.com/512/1077/1077114.png')
-                              : NetworkImage(authenticationProvider
-                                      .profilePictureUrl ??
-                                  'https://cdn-icons-png.flaticon.com/512/1077/1077114.png'),
+
+                          // backgroundImage: userDetails.userFace != null
+                          //     ? NetworkImage(userDetails.userFace ??
+                          //         'https://cdn-icons-png.flaticon.com/512/1077/1077114.png')
+                          //     : NetworkImage(authenticationProvider
+                          //             .profilePictureUrl ??
+                          //         'https://cdn-icons-png.flaticon.com/512/1077/1077114.png'),
                         ),
                         Positioned(
                           bottom: 25.0,
@@ -133,7 +134,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               size: 40,
                             ),
                             onPressed: () {
-                              PswdImagePicker.pickImage(widget.userId);
                               userDetails.dpimageUser(widget.userId);
                             },
                           ),

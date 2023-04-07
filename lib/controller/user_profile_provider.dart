@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +6,6 @@ import 'package:uuid/uuid.dart';
 import 'image_picker.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class FormControllerProvider with ChangeNotifier {
   final TextEditingController _usernameController = TextEditingController();
@@ -31,12 +28,15 @@ class FormControllerProvider with ChangeNotifier {
 
     notifyListeners();
   }
-String? userFace;
 
-dpimageUser(uid)async{
-userFace=await PswdImagePicker.pickImage(uid);
-}
-static Future<String?> pickImage(String userId) async {
+  String? userFace;
+
+  dpimageUser(uid) async {
+    userFace = await pickImage(uid);
+    notifyListeners();
+  }
+
+  static Future<String?> pickImage(String userId) async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
@@ -60,5 +60,4 @@ static Future<String?> pickImage(String userId) async {
       return null;
     }
   }
-  
 }

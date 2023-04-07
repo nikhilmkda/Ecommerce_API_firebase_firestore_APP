@@ -6,8 +6,6 @@ import 'package:flutter_application_e_commerse_app_with_api/user_details/google_
 import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
-import 'homepage.dart';
-
 import '../user_details/get_user_data.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -208,11 +206,11 @@ class LoginScreen extends StatelessWidget {
                         try {
                           await authenticationProvider.googleLogin();
                           await authenticationProvider.googlecurrentuser();
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => MyHomePage(),
-                            ),
-                          );
+
+                          if (userG != null) {
+                            BuildContext contextRef = context;
+                            dataProvider.navigateToHomepage(contextRef);
+                          }
                         } catch (error) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

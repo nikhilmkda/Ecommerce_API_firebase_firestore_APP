@@ -54,11 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final data = snapshot.data!;
-                    return DrawerScreen(
-                        '${data['name']}',
-                        '${data['email']}',
-                        authenticationProvider.profilePictureUrl ??
-                            'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');
+                    return DrawerScreen('${data['name']}', '${data['email']}',
+                        data['photoUrl']);
                   } else {
                     return DrawerScreen('User not found', 'Email not found',
                         'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');

@@ -9,13 +9,14 @@ final User? userG = FirebaseAuth.instance.currentUser;
 final String uid = userG!.uid;
 
 class GoogleSignInProvider extends ChangeNotifier {
+  bool isGoogleSignIn = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   GoogleSignInAccount? _user;
 
   GoogleSignInAccount get user => _user!;
-  final String? profilePictureUrl = userG?.photoURL;
+  // final String? profilePictureUrl = userG?.photoURL;
   Future googlecurrentuser() async {
     final userDoc = FirebaseFirestore.instance.collection('users').doc(uid);
     final userData = await userDoc.get();
@@ -26,7 +27,7 @@ class GoogleSignInProvider extends ChangeNotifier {
         // 'phone_number': '',
         // 'address': '',
         // 'age': '',
-        'profilePictureUrl': profilePictureUrl
+        // 'profilePictureUrl': profilePictureUrl
       });
     }
   }
@@ -35,6 +36,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return;
+      isGoogleSignIn = true;
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
@@ -56,7 +58,7 @@ class GoogleSignInProvider extends ChangeNotifier {
   Future logout() async {
     await _auth.signOut();
     _googleSignIn.signOut();
-
+    isGoogleSignIn = false;
     _user = null;
     notifyListeners();
   }
