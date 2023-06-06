@@ -10,14 +10,17 @@ class UserDataProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> signUpWithEmailAndPassword(
-      String email, String password, String fullName) async {
+      String email, String password, String fullName, String photoUrl) async {
     try {
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({
-        'fullName': fullName,
-        'email': email,
-      });
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await _firestore
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({'fullName': fullName, 'email': email, 'photoUrl': photoUrl});
     } catch (e) {
       print('Failed to create user with email and password: $e');
       // Display error message
@@ -26,6 +29,7 @@ class UserDataProvider extends ChangeNotifier {
 
   String? fullName;
   String? email;
+  String? photoUrl;
 
   String _profilePictureUrl = '';
 
@@ -34,14 +38,14 @@ class UserDataProvider extends ChangeNotifier {
   Future<void> pswdUserprofilePictureGet(String userId) async {
     final userData =
         await FirebaseFirestore.instance.collection('users').doc(userId).get();
-    _profilePictureUrl = userData['profilePictureUrl'];
+    _profilePictureUrl = userData['photoUrl'];
     notifyListeners();
   }
 
   Future<void> pswdUserprofilePictureUpdate(
       String userId, String imageUrl) async {
     await FirebaseFirestore.instance.collection('users').doc(userId).update({
-      'profilePictureUrl': imageUrl,
+      'photoUrl': imageUrl,
     });
     _profilePictureUrl = imageUrl;
     notifyListeners();
@@ -60,6 +64,8 @@ class UserDataProvider extends ChangeNotifier {
 
           fullName = data['fullName'];
           email = data['email'];
+          photoUrl = data['photoUrl'];
+
           notifyListeners();
 
           return data;

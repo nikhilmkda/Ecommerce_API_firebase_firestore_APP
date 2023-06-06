@@ -37,16 +37,16 @@ class _ProfilePageState extends State<ProfilePage> {
           setState(() {
             _userProfile = documentSnapshot;
 
-            Provider.of<FormControllerProvider>(context, listen: false)
+            Provider.of<Userdetailsprovider>(context, listen: false)
                 .usernameController
                 .text = _userProfile['fullName'];
-            Provider.of<FormControllerProvider>(context, listen: false)
+            Provider.of<Userdetailsprovider>(context, listen: false)
                 .phoneNumberController
                 .text = _userProfile['phone_number'];
-            Provider.of<FormControllerProvider>(context, listen: false)
+            Provider.of<Userdetailsprovider>(context, listen: false)
                 .addressController
                 .text = _userProfile['address'];
-            Provider.of<FormControllerProvider>(context, listen: false)
+            Provider.of<Userdetailsprovider>(context, listen: false)
                 .ageController
                 .text = _userProfile['age'].toString();
           });
@@ -63,8 +63,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final getuser = Provider.of<UserDataProvider>(context);
-    final userDetails = Provider.of<FormControllerProvider>(context);
-    final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
+    final userDetails = Provider.of<Userdetailsprovider>(context);
+    final googleUser = Provider.of<GoogleSignInProvider>(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -73,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text('User Profile',
             style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold)),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Color.fromARGB(255, 78, 78, 78),
@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         height: height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           // image: DecorationImage(
           //     image: NetworkImage(
           //         'https://mebincdn.themebin.com/1664962508289.png'),
@@ -111,19 +111,86 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: height / 25,
                 ),
                 Center(
-                  child: Container(
+                  child: SizedBox(
+                    height: height * 0.28,
                     child: Stack(
                       children: [
-                        CircleAvatar(
-                          radius: 120,
+                        Consumer<UserDataProvider>(
+                          builder: (context, userDataProvider, child) {
+                            final authUser = FirebaseAuth.instance.currentUser;
+                            if (authUser != null) {
+                              if (authUser.providerData.any((provider) =>
+                                  provider.providerId == 'google.com')) {
+                                return StreamBuilder<Map<String, dynamic>>(
+                                  stream:
+                                      userDataProvider.getUserDetailsgoogle(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final data = snapshot.data!;
+                                      final photoUrl =
+                                          data['photoUrl'] as String;
+                                      return CircleAvatar(
+                                        radius: 120,
+                                        backgroundImage: NetworkImage(photoUrl),
+                                      );
+                                    } else {
+                                      return CircleAvatar(
+                                        radius: 120,
+                                        backgroundImage: NetworkImage(
+                                            'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'),
+                                      );
+                                    }
+                                  },
+                                );
+                              } else if (authUser.providerData.any((provider) =>
+                                  provider.providerId == 'password')) {
+                                // User signed in with email/password
+                                return StreamBuilder<Map<String, dynamic>>(
+                                  stream: userDataProvider.getUserData(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final data = snapshot.data!;
+                                      final photoUrl =
+                                          data['photoUrl'] as String;
 
-                          // backgroundImage: userDetails.userFace != null
-                          //     ? NetworkImage(userDetails.userFace ??
-                          //         'https://cdn-icons-png.flaticon.com/512/1077/1077114.png')
-                          //     : NetworkImage(authenticationProvider
-                          //             .profilePictureUrl ??
-                          //         'https://cdn-icons-png.flaticon.com/512/1077/1077114.png'),
+                                      return CircleAvatar(
+                                          radius: 120,
+                                          backgroundImage:
+                                              NetworkImage(photoUrl));
+                                    }
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                );
+                              }
+                            }
+                            // User not signed in
+                            return const SizedBox.shrink();
+                          },
                         ),
+                        // StreamBuilder<DocumentSnapshot>(
+                        //   stream: FirebaseFirestore.instance
+                        //       .collection('users')
+                        //       .doc(widget.userId)
+                        //       .snapshots(),
+                        //   builder: (context, snapshot) {
+                        //     if (snapshot.hasData) {
+                        //       final data =
+                        //           snapshot.data!.data() as Map<String, dynamic>;
+                        //       final photoUrl = data['photoUrl'] as String;
+                        //       return CircleAvatar(
+                        //         radius: 120,
+                        //         backgroundImage: NetworkImage(photoUrl),
+                        //       );
+                        //     } else {
+                        //       return const Center(
+                        //         child: CircularProgressIndicator(),
+                        //       );
+                        //     }
+                        //   },
+                        // ),
+
                         Positioned(
                           bottom: 25.0,
                           right: 0.0,
@@ -140,7 +207,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
-                    height: height * 0.28,
                   ),
                 ),
                 SizedBox(
@@ -149,7 +215,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(
                   height: height * 0.08,
                   child: TextFormField(
-                    controller: Provider.of<FormControllerProvider>(context)
+                    controller: Provider.of<Userdetailsprovider>(context)
                         .usernameController,
                     style: TextStyle(
                       color: Colors.white,
@@ -175,7 +241,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(
                   height: height * 0.08,
                   child: TextFormField(
-                    controller: Provider.of<FormControllerProvider>(context)
+                    controller: Provider.of<Userdetailsprovider>(context)
                         .phoneNumberController,
                     style: TextStyle(
                       color: Colors.white,
@@ -201,7 +267,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(
                   height: height * 0.08,
                   child: TextFormField(
-                    controller: Provider.of<FormControllerProvider>(context)
+                    controller: Provider.of<Userdetailsprovider>(context)
                         .addressController,
                     style: TextStyle(
                       color: Colors.white,
@@ -228,8 +294,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: height * 0.08,
                   child: TextFormField(
                     keyboardType: TextInputType.phone,
-                    controller: Provider.of<FormControllerProvider>(context)
-                        .ageController,
+                    controller:
+                        Provider.of<Userdetailsprovider>(context).ageController,
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -281,22 +347,20 @@ class _ProfilePageState extends State<ProfilePage> {
                             .collection('users')
                             .doc(widget.userId)
                             .update({
-                          'fullName': Provider.of<FormControllerProvider>(
-                                  context,
+                          'fullName': Provider.of<Userdetailsprovider>(context,
                                   listen: false)
                               .usernameController
                               .text,
-                          'phone_number': Provider.of<FormControllerProvider>(
+                          'phone_number': Provider.of<Userdetailsprovider>(
                                   context,
                                   listen: false)
                               .phoneNumberController
                               .text,
-                          'address': Provider.of<FormControllerProvider>(
-                                  context,
+                          'address': Provider.of<Userdetailsprovider>(context,
                                   listen: false)
                               .addressController
                               .text,
-                          'age': int.parse(Provider.of<FormControllerProvider>(
+                          'age': int.parse(Provider.of<Userdetailsprovider>(
                                   context,
                                   listen: false)
                               .ageController

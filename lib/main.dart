@@ -36,8 +36,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DataProvider()),
         ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
         ChangeNotifierProvider(create: (_) => UserDataProvider()),
-        ChangeNotifierProvider<FormControllerProvider>(
-          create: (context) => FormControllerProvider(),
+        ChangeNotifierProvider<Userdetailsprovider>(
+          create: (context) => Userdetailsprovider(),
         ),
       ],
       child: MaterialApp(

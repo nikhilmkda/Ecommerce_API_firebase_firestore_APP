@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final hivecall = Provider.of<HiveHelper>(context);
     final getuser = Provider.of<UserDataProvider>(context);
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
-    final userDetails = Provider.of<FormControllerProvider>(context);
+    final userDetails = Provider.of<Userdetailsprovider>(context);
     var itemsOfAPI = dataProvider.productsofproduct;
     return Scaffold(
       key: _scaffoldKey,
@@ -70,11 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final data = snapshot.data!;
-                    return DrawerScreen(
-                        '${data['fullName']}',
-                        '${data['email']}',
-                        userDetails.userFace ??
-                            'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');
+                    return DrawerScreen('${data['fullName']}',
+                        '${data['email']}', data['photoUrl']);
                   } else {
                     return DrawerScreen('User not found', 'Email not found',
                         'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');
@@ -206,8 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         watchbrandNameSmall:
                                             itemsOfAPI[index].brand,
                                         watchname: itemsOfAPI[index].title,
-                                        imageURL:
-                                            itemsOfAPI[index].images.first,
+                                        imageURL: itemsOfAPI[index].images,
                                         catagory: itemsOfAPI[index].category,
                                         description:
                                             itemsOfAPI[index].description,

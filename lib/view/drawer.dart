@@ -11,14 +11,15 @@ import '../controller/user_profile_provider.dart';
 class DrawerScreen extends StatelessWidget {
   final String fullName;
   final String email;
-   final String profilePIC;
+  final String profilePIC;
 
-  DrawerScreen(@required this.fullName, @required this.email,  @required this.profilePIC);
+  DrawerScreen(
+      @required this.fullName, @required this.email, @required this.profilePIC);
 
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
-    final userData = Provider.of<FormControllerProvider>(context);
+    final userData = Provider.of<Userdetailsprovider>(context);
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
     final getuser = Provider.of<UserDataProvider>(context);
 
@@ -47,8 +48,7 @@ class DrawerScreen extends StatelessWidget {
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
-              backgroundImage:
-                  NetworkImage(profilePIC),
+              backgroundImage: NetworkImage(profilePIC),
             ),
           ),
           ListTile(

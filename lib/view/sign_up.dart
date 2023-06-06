@@ -16,6 +16,8 @@ class SignUpScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  SignUpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
@@ -28,7 +30,7 @@ class SignUpScreen extends StatelessWidget {
         title: Text('Sign Up',
             style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold)),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Color.fromARGB(255, 78, 78, 78),
@@ -43,7 +45,7 @@ class SignUpScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           height: height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             // image: DecorationImage(
             //     image: NetworkImage(
             //         'https://mebincdn.themebin.com/1664962508289.png'),
@@ -62,7 +64,7 @@ class SignUpScreen extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(
                               'https://png.pngtree.com/png-clipart/20220125/original/pngtree-shopping-cart-element-full-of-goods-png-image_7220904.png'),
@@ -87,7 +89,7 @@ class SignUpScreen extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'email',
                                 hintStyle: TextStyle(
                                   color: Colors.white,
@@ -104,7 +106,7 @@ class SignUpScreen extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors
                                     .white, // set the input text color here
                               ),
@@ -120,7 +122,7 @@ class SignUpScreen extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'password',
                                 hintStyle: TextStyle(
                                   color: Colors.white,
@@ -137,7 +139,7 @@ class SignUpScreen extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors
                                     .white, // set the input text color here
                               ),
@@ -153,7 +155,7 @@ class SignUpScreen extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Full Name',
                                 hintStyle: TextStyle(
                                   color: Colors.white,
@@ -170,19 +172,19 @@ class SignUpScreen extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors
                                     .white, // set the input text color here
                               ),
                             ),
                           ),
-                          SizedBox(height: 25.0),
+                          const SizedBox(height: 25.0),
                           Container(
                             width: MediaQuery.of(context).size.width * .85,
                             height: 60,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 colors: [
                                   Color.fromARGB(255, 255, 255, 255),
                                   Color.fromARGB(255, 189, 189, 189),
@@ -196,14 +198,19 @@ class SignUpScreen extends StatelessWidget {
                                 if (_formKey.currentState!.validate()) {
                                   getuser
                                       .signUpWithEmailAndPassword(
-                                          _emailController.text,
-                                          _passwordController.text,
-                                          _fullNameController.text)
+                                        _emailController.text,
+                                        _passwordController.text,
+                                        _fullNameController.text,
+                                        'https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg',
+                                      )
                                       .then((value) => dataProvider
-                                          .navigateToLoginPage(context));
+                                          .navigateToHomepage(context));
                                 }
                               },
-                              child: Text(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: const Text(
                                 'Sign Up',
                                 style: TextStyle(
                                   color: Color(0xff161b27),
@@ -211,16 +218,13 @@ class SignUpScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
                             ),
                           ),
-                          SizedBox(height: 60),
+                          const SizedBox(height: 60),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 'Already have an account ? ',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -228,12 +232,12 @@ class SignUpScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 16),
+                              const SizedBox(height: 16),
                               GestureDetector(
                                 onTap: () {
                                   dataProvider.navigateToLoginPage(context);
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Sign in',
                                   style: TextStyle(
                                     color: Colors.blue,

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
 import '../controller/hive_save.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class CustomWidget extends StatelessWidget {
   final String imageUrl;
@@ -84,15 +85,16 @@ class CustomWidget extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.blue, size: 20),
-                      Icon(Icons.star, color: Colors.blue, size: 20),
-                      Icon(Icons.star, color: Colors.blue, size: 20),
-                      Icon(Icons.star, color: Colors.blue, size: 20),
-                      Icon(Icons.star_border, color: Colors.grey, size: 20),
-                      SizedBox(width: 5),
+                      const Icon(Icons.star, color: Colors.blue, size: 20),
+                      const Icon(Icons.star, color: Colors.blue, size: 20),
+                      const Icon(Icons.star, color: Colors.blue, size: 20),
+                      const Icon(Icons.star, color: Colors.blue, size: 20),
+                      const Icon(Icons.star_border,
+                          color: Colors.grey, size: 20),
+                      const SizedBox(width: 5),
                       Text(
                         starRating,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.blue),
@@ -136,7 +138,7 @@ class CustomWidgetItemDetails extends StatelessWidget {
   final String stock;
   final String catagory;
 
-  final String imageURL;
+  final List<String> imageURL;
 
   CustomWidgetItemDetails(
       {required this.watchprice,
@@ -278,12 +280,27 @@ class CustomWidgetItemDetails extends StatelessWidget {
                         const EdgeInsets.only(top: 40, left: 20, right: 20),
                     child: Container(
                       height: 250,
-                      decoration: BoxDecoration(
-                          //color: Colors.amber,
-                          borderRadius: BorderRadius.circular(25),
-                          image: DecorationImage(
-                              fit: BoxFit.fitHeight,
-                              image: NetworkImage(imageURL))),
+                      child: ImageSlideshow(
+                        indicatorColor: Colors.blue,
+                        onPageChanged: (value) {
+                          debugPrint('Page changed: $value');
+                        },
+                        autoPlayInterval: 3000,
+                        isLoop: true,
+                        children: List.generate(
+                          imageURL.length,
+                          (index) => Image.network(
+                            imageURL[index],
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ),
+                      // decoration: BoxDecoration(
+                      //     //color: Colors.amber,
+                      //     borderRadius: BorderRadius.circular(25),
+                      //     image: DecorationImage(
+                      //         fit: BoxFit.fitHeight,
+                      //         image: NetworkImage(imageURL[2]))),
                     ),
                   ),
                 ]),
@@ -300,7 +317,8 @@ class CustomWidgetItemDetails extends StatelessWidget {
                           // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 10),
+                              padding:
+                                  const EdgeInsets.only(top: 10, bottom: 15),
                               child: SizedBox(
                                 height: height / 18,
                                 child: Row(
@@ -309,7 +327,7 @@ class CustomWidgetItemDetails extends StatelessWidget {
                                       child: Text(
                                         watchname,
                                         style: TextStyle(
-                                            fontSize: height / 40,
+                                            fontSize: height / 30,
                                             color: Color.fromARGB(166, 0, 0, 0),
                                             fontWeight: FontWeight.bold),
                                         maxLines: null,

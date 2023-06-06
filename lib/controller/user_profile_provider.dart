@@ -7,7 +7,7 @@ import 'image_picker.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FormControllerProvider with ChangeNotifier {
+class Userdetailsprovider with ChangeNotifier {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -52,7 +52,7 @@ class FormControllerProvider with ChangeNotifier {
 
       // Save the download URL to Firestore under the user's document
       await FirebaseFirestore.instance.collection('users').doc(userId).update({
-        'profilePicture': imageUrl,
+        'photoUrl': imageUrl,
       });
 
       return imageUrl;
