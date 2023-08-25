@@ -5,9 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+
 class UserDataProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+   
+              
 
   Future<void> signUpWithEmailAndPassword(
       String email, String password, String fullName, String photoUrl) async {
@@ -42,15 +45,6 @@ class UserDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> pswdUserprofilePictureUpdate(
-      String userId, String imageUrl) async {
-    await FirebaseFirestore.instance.collection('users').doc(userId).update({
-      'photoUrl': imageUrl,
-    });
-    _profilePictureUrl = imageUrl;
-    notifyListeners();
-  }
-
   Stream<Map<String, dynamic>> getUserData() async* {
     final User? user = _auth.currentUser;
     if (user != null) {
@@ -80,7 +74,7 @@ class UserDataProvider extends ChangeNotifier {
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Stream<Map<String, dynamic>> getUserDetailsgoogle() async* {
+    Stream<Map<String, dynamic>> getUserDetailsgoogle() async* {
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;

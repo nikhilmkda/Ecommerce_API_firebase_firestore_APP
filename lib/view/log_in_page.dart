@@ -1,61 +1,35 @@
 import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_e_commerse_app_with_api/controller/authPage.dart';
 import 'package:flutter_application_e_commerse_app_with_api/user_details/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
 import '../user_details/get_user_data.dart';
+import '../user_details/passwordSignin.dart';
 
 class LoginScreen extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final passwordUser = Provider.of<PasswordSigninProvider>(context);
     final getuser = Provider.of<UserDataProvider>(context);
     final dataProvider = Provider.of<DataProvider>(context);
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    void handleLogin(BuildContext context) async {
-      try {
-        final UserCredential userCredential =
-            await _auth.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        );
-        print('Login successful. User ID: ${userCredential.user!.uid}');
-        dataProvider.navigateToHomepage(context);
-      } on FirebaseAuthException catch (e) {
-        print('Login failed. Error message: ${e.message}');
-        final snackBar =
-            SnackBar(content: Text(e.message ?? 'Unknown error occurred'));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    }
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
           height: height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
                 image: NetworkImage(
                     'https://img.freepik.com/free-vector/empty-street-with-transport-highway-cartoon-illustration_1441-3972.jpg'),
                 fit: BoxFit.cover),
-            // gradient: LinearGradient(
-            //   colors: [
-            //     Color.fromARGB(255, 255, 255, 255),
-            //     Color.fromARGB(255, 255, 255, 255),
-            //   ],
-            //   begin: Alignment.topCenter,
-            //   end: Alignment.bottomCenter,
-            // ),
           ),
           child: Stack(
             children: [
@@ -72,36 +46,49 @@ class LoginScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.2),
                         // color: Color(0xff121220),
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
                       ),
                     ),
                   ),
                 ),
               ),
+              // Container(
+              //   decoration: const BoxDecoration(
+              //     image: DecorationImage(
+              //         image: NetworkImage(
+              //             'https://assets.stickpng.com/images/61f7cd6e67553f0004c53e73.png'),
+              //         fit: BoxFit.contain),
+              //   ),
+              //   height: 120,
+              // ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              'https://png.pngtree.com/png-clipart/20220125/original/pngtree-girl-pushing-a-shopping-cart-png-image_7212166.png'),
-                          fit: BoxFit.contain),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/37615/mother-daughter-shopping-clipart-md.png'),
+                            fit: BoxFit.contain),
+                      ),
+                      height: 250,
                     ),
-                    height: 320,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: TextField(
-                      controller: _emailController,
+                      controller: passwordUser.emailController,
                       decoration: InputDecoration(
                         hintText: 'Email',
-                        prefixIcon: Icon(Icons.email, color: Colors.grey),
+                        prefixIcon: const Icon(Icons.email, color: Colors.grey),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.9),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 25),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
@@ -109,18 +96,18 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: TextField(
-                      controller: _passwordController,
+                      controller: passwordUser.passwordController,
                       decoration: InputDecoration(
                         hintText: 'Password',
-                        prefixIcon: Icon(Icons.lock, color: Colors.grey),
+                        prefixIcon: const Icon(Icons.lock, color: Colors.grey),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.9),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 25),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
@@ -128,11 +115,11 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 30),
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 30),
                       child: Align(
                         alignment: Alignment.bottomRight,
                         child: Text(
@@ -147,13 +134,13 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Container(
                     width: MediaQuery.of(context).size.width * .85,
                     height: 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [
                           Color.fromARGB(255, 255, 255, 255),
                           Color.fromARGB(255, 189, 189, 189),
@@ -164,10 +151,25 @@ class LoginScreen extends StatelessWidget {
                     ),
                     child: MaterialButton(
                       onPressed: () {
-                        handleLogin(context);
-                        getuser.getUserData();
+                        try {
+                          final passwordUser =
+                              Provider.of<PasswordSigninProvider>(context,
+                                  listen: false);
+                          passwordUser.handlePasswordLogin(context);
+                          getuser.getUserData();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AuthPage()),
+                          );
+                        } catch (e) {
+                          print('Error occurred: $e');
+                        }
                       },
-                      child: Text(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: const Text(
                         'Login',
                         style: TextStyle(
                           color: Color(0xff161b27),
@@ -175,13 +177,10 @@ class LoginScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     'OR',
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
@@ -189,66 +188,64 @@ class LoginScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.85,
                     height: 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [Colors.red, Color.fromARGB(255, 181, 49, 39)],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
                     ),
-                    child: MaterialButton(
-                      onPressed: () async {
-                        try {
-                          await authenticationProvider.googleLogin();
-                          await authenticationProvider.googlecurrentuser();
-
-                          if (userG != null) {
-                            BuildContext contextRef = context;
-                            dataProvider.navigateToHomepage(contextRef);
+                    child: Builder(builder: (context) {
+                      return MaterialButton(
+                        onPressed: () async {
+                          try {
+                            await authenticationProvider.googleLogin().then(
+                                (value) =>
+                                    dataProvider.navigateToAuthpage(context));
+                          } catch (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    'Failed to sign in with Google: $error'),
+                              ),
+                            );
                           }
-                        } catch (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content:
-                                  Text('Failed to sign in with Google: $error'),
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.network(
+                              'https://www.seekpng.com/png/full/788-7887426_google-g-png-google-logo-white-png.png',
+                              height: 24,
+                              width: 24,
                             ),
-                          );
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.network(
-                            'https://www.seekpng.com/png/full/788-7887426_google-g-png-google-logo-white-png.png',
-                            height: 24,
-                            width: 24,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            'Login with Google',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                            const SizedBox(width: 10),
+                            const Text(
+                              'Login with Google',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
+                          ],
+                        ),
+                      );
+                    }),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'New User ? ',
                         style: TextStyle(
                           color: Colors.white,
@@ -256,12 +253,12 @@ class LoginScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       GestureDetector(
                         onTap: () {
                           dataProvider.navigateToSIgnupFirestore(context);
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign Up',
                           style: TextStyle(
                             color: Colors.blue,

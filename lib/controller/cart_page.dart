@@ -9,17 +9,14 @@ import 'hive_save.dart';
 import '../view/homepage.dart';
 
 class Cart_page extends StatefulWidget {
+  const Cart_page({super.key});
+
   @override
   State<Cart_page> createState() => _Cart_pageState();
 }
 
 class _Cart_pageState extends State<Cart_page> {
   final HiveHelper hiveHelper = HiveHelper();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +35,7 @@ class _Cart_pageState extends State<Cart_page> {
           style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
         ),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Color.fromARGB(255, 78, 78, 78),
@@ -50,7 +47,7 @@ class _Cart_pageState extends State<Cart_page> {
           ),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
@@ -60,21 +57,21 @@ class _Cart_pageState extends State<Cart_page> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
               color: Colors.white,
             ),
             onPressed: () {},
           ),
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.home,
               color: Colors.white,
             ),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
+                MaterialPageRoute(builder: (context) => const MyHomePage()),
               );
             },
           ),
@@ -87,73 +84,76 @@ class _Cart_pageState extends State<Cart_page> {
               color: Colors.white,
               border: Border.all(width: 2, color: Colors.grey),
             ),
-            height: 90,
+            height: height / 8,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Deliver to:'),
-                  ElevatedButton(onPressed: () {}, child: Text('Change')),
+                  const Text('Deliver to:'),
+                  ElevatedButton(onPressed: () {}, child: const Text('Change')),
                 ],
               ),
             ),
           ),
-          SizedBox(
-            height: height / 1.4,
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                childAspectRatio: 1.65,
-              ),
-              itemCount: hivecall.itemscart.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Custom_widget_cart(
-                  itemName: dataProvider
-                      .productsofproduct[hivecall.itemscart[index]].title,
-                  deliveryDate: 'Monday 8',
-                  freeDelivery: 'freeDelivery',
-                  rating: dataProvider
-                      .productsofproduct[hivecall.itemscart[index]].rating
-                      .toString(),
-                  itemPrice: dataProvider
-                      .productsofproduct[hivecall.itemscart[index]].price
-                      .toString(),
-                  imageURL: dataProvider
-                      .productsofproduct[hivecall.itemscart[index]]
-                      .images
-                      .first,
-                  itemTapped: () {
-                    hivecall.removeCartItemhive(index);
+          Expanded(
+            child: SizedBox(
+              height: height / 1.45,
+              width: width,
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  childAspectRatio: 1.65,
+                ),
+                itemCount: hivecall.itemscart.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Custom_widget_cart(
+                    itemName: dataProvider
+                        .productsofproduct[hivecall.itemscart[index]].title,
+                    deliveryDate: 'Monday 8',
+                    freeDelivery: 'freeDelivery',
+                    rating: dataProvider
+                        .productsofproduct[hivecall.itemscart[index]].rating
+                        .toString(),
+                    itemPrice: dataProvider
+                        .productsofproduct[hivecall.itemscart[index]].price
+                        .toString(),
+                    imageURL: dataProvider
+                        .productsofproduct[hivecall.itemscart[index]]
+                        .images
+                        .first,
+                    itemTapped: () {
+                      hivecall.removeCartItemhive(index);
 
-                    print('${hivecall.itemscart}');
-                    print('${hivecall.totalcartPrice}');
-                  },
-                  qtydecrement: () {
-                    hivecall.itemQTYidecrement(
-                        index,
-                        dataProvider
-                            .productsofproduct[hivecall.itemscart[index]]
-                            .price);
-                    print('QTY LIst decrement ${hivecall.itemQTyList}');
-                  },
-                  qtyincrement: () {
-                    hivecall.itemQTYincrement(
-                        index,
-                        dataProvider
-                            .productsofproduct[hivecall.itemscart[index]]
-                            .price);
-                    print('QTY LIst increment ${hivecall.itemQTyList}');
-                  },
-                  quantityItem: hivecall.itemQTyList.isEmpty
-                      ? 0
-                      : hivecall.itemQTyList[index],
-                  discount: dataProvider
-                      .productsofproduct[hivecall.itemscart[index]]
-                      .discountPercentage
-                      .toString(),
-                );
-              },
+                      // print('${hivecall.itemscart}');
+                      // print('${hivecall.totalcartPrice}');
+                    },
+                    qtydecrement: () {
+                      hivecall.itemQTYidecrement(
+                          index,
+                          dataProvider
+                              .productsofproduct[hivecall.itemscart[index]]
+                              .price);
+                      //   print('QTY LIst decrement ${hivecall.itemQTyList}');
+                    },
+                    qtyincrement: () {
+                      hivecall.itemQTYincrement(
+                          index,
+                          dataProvider
+                              .productsofproduct[hivecall.itemscart[index]]
+                              .price);
+                      //   print('QTY LIst increment ${hivecall.itemQTyList}');
+                    },
+                    quantityItem: hivecall.itemQTyList.isEmpty
+                        ? 0
+                        : hivecall.itemQTyList[index],
+                    discount: dataProvider
+                        .productsofproduct[hivecall.itemscart[index]]
+                        .discountPercentage
+                        .toString(),
+                  );
+                },
+              ),
             ),
           ),
           Container(
@@ -161,10 +161,10 @@ class _Cart_pageState extends State<Cart_page> {
               color: Colors.white54,
               boxShadow: [
                 BoxShadow(
-                  color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+                  offset: const Offset(0, 3), // changes position of shadow
                 ),
               ],
             ),
@@ -197,7 +197,7 @@ class _Cart_pageState extends State<Cart_page> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Row(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 40,
                             child: LoadingIndicator(
                               indicatorType: Indicator.lineScaleParty,
@@ -213,7 +213,7 @@ class _Cart_pageState extends State<Cart_page> {
                       hivecall.totalCartPriceSum = hivecall.totalcartPrice.fold(
                           0,
                           (previousValue, element) => previousValue + element);
-                      print('the price sum is ${hivecall.totalCartPriceSum}');
+                      //  print('the price sum is ${hivecall.totalCartPriceSum}');
                       return Align(
                         alignment: Alignment.topLeft,
                         child: Padding(

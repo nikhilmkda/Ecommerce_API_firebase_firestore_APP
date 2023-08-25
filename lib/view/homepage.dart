@@ -5,6 +5,7 @@ import 'package:flutter_application_e_commerse_app_with_api/user_details/google_
 import 'package:flutter_application_e_commerse_app_with_api/progress_indicator.dart/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import '../controller/user_profile_provider.dart';
 import 'costom_widget.dart';
@@ -14,17 +15,19 @@ import 'drawer.dart';
 import '../controller/hive_save.dart';
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final HiveHelper hiveHelper = HiveHelper();
 
   @override
   void initState() {
     super.initState();
+   
 
     Future.delayed(Duration.zero, () {
       Provider.of<DataProvider>(context, listen: false).fetchData();
@@ -40,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
     final userDetails = Provider.of<Userdetailsprovider>(context);
     var itemsOfAPI = dataProvider.productsofproduct;
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: Consumer<UserDataProvider>(
@@ -57,7 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     return DrawerScreen('${data['name']}', '${data['email']}',
                         data['photoUrl']);
                   } else {
-                    return DrawerScreen('User not found', 'Email not found',
+                    return const DrawerScreen(
+                        'User not found',
+                        'Email not found',
                         'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');
                   }
                 },
@@ -73,7 +79,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     return DrawerScreen('${data['fullName']}',
                         '${data['email']}', data['photoUrl']);
                   } else {
-                    return DrawerScreen('User not found', 'Email not found',
+                    return const DrawerScreen(
+                        'User not found',
+                        'Email not found',
                         'https://cdn-icons-png.flaticon.com/512/1077/1077114.png');
                   }
                 },
@@ -89,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Products',
             style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold)),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Color.fromARGB(255, 78, 78, 78),
@@ -101,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.menu,
             color: Colors.white,
           ),
@@ -111,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
               color: Colors.white,
             ),
@@ -121,8 +129,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Stack(
             children: [
+              
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.shopping_cart,
                   color: Colors.white,
                 ),
@@ -160,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: dataProvider.isLoading
-            ? SizedBox(
+            ? const SizedBox(
                 height: 30,
                 width: 100,
                 child: LoadingIndicator(
@@ -185,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, childAspectRatio: 0.9),
                       itemCount: itemsOfAPI.length,
-                      itemBuilder: (context, index) => CustomWidget(
+                      itemBuilder: (context, index) => ItemList(
                         imageUrl: itemsOfAPI[index].images.first,
                         title: itemsOfAPI[index].title,
                         description: itemsOfAPI[index].brand,
@@ -195,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CustomWidgetItemDetails(
+                                  builder: (context) => ItemDetailsWidget(
                                         watchprice:
                                             itemsOfAPI[index].price.toString(),
                                         rating:
@@ -216,6 +225,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                           print('${hivecall.totalcartPrice}');
                                           if (hivecall.itemscart
                                               .contains(cartitems)) {
+                                            const snackBar = SnackBar(
+                                              content: Text(
+                                                  'Item already in the cart'),
+                                              duration: Duration(seconds: 1),
+                                              backgroundColor: Colors.red,
+                                            );
+
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
                                             // Item is already in the cart
                                             return;
                                           }
@@ -227,6 +245,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                               hivecall.totalcartPrice,
                                               hivecall.itemQTyList);
                                           hivecall.itemQTyList.add(1);
+                                          const snackBar = SnackBar(
+                                            content: Text(
+                                              'Item added to Cart',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            duration: Duration(seconds: 1),
+                                            backgroundColor: Colors.green,
+                                          );
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
                                           print(
                                               'QTY LIst ${hivecall.itemQTyList}');
                                         },

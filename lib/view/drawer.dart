@@ -7,18 +7,19 @@ import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
 import '../controller/user_profile_provider.dart';
+import '../user_details/passwordSignin.dart';
 
 class DrawerScreen extends StatelessWidget {
   final String fullName;
   final String email;
   final String profilePIC;
 
-  DrawerScreen(
-      @required this.fullName, @required this.email, @required this.profilePIC);
+  const DrawerScreen(this.fullName, this.email, this.profilePIC, {super.key});
 
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
+    final passwordUser = Provider.of<PasswordSigninProvider>(context);
     final userData = Provider.of<Userdetailsprovider>(context);
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
     final getuser = Provider.of<UserDataProvider>(context);
@@ -31,7 +32,7 @@ class DrawerScreen extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
                     'https://img4.goodfon.com/wallpaper/nbig/f/c6/material-design-hd-wallpaper-linii-background-color.jpg'),
@@ -40,11 +41,11 @@ class DrawerScreen extends StatelessWidget {
             ),
             accountName: Text(
               fullName,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
             accountEmail: Text(
               email,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
@@ -52,27 +53,27 @@ class DrawerScreen extends StatelessWidget {
             ),
           ),
           ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.person,
                 color: Colors.white,
               ),
-              title: Text(
+              title: const Text(
                 'Profile',
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                print('$uid');
+                print(uid);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ProfilePage(userId: uid)));
               }),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.settings,
               color: Colors.white,
             ),
-            title: Text(
+            title: const Text(
               'Settings',
               style: TextStyle(color: Colors.white),
             ),
@@ -81,11 +82,11 @@ class DrawerScreen extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.help,
               color: Colors.white,
             ),
-            title: Text(
+            title: const Text(
               'Help',
               style: TextStyle(color: Colors.white),
             ),
@@ -94,17 +95,18 @@ class DrawerScreen extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.exit_to_app,
               color: Colors.white,
             ),
-            title: Text(
+            title: const Text(
               'Sign Out',
               style: TextStyle(color: Colors.white),
             ),
             onTap: () => authenticationProvider
                 .logout()
                 .then((value) => userData.clearFormFields())
+                .then((value) => passwordUser.clearFormFields())
                 .then((value) => dataProvider.navigateToLoginPage(context)),
           ),
         ],

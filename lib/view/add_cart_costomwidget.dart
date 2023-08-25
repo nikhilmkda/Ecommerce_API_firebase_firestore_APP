@@ -15,8 +15,9 @@ class Custom_widget_cart extends StatelessWidget {
   final String imageURL;
   final Function() itemTapped;
 
-  Custom_widget_cart(
-      {required this.itemName,
+  const Custom_widget_cart(
+      {super.key,
+      required this.itemName,
       required this.itemTapped,
       required this.discount,
       required this.quantityItem,
@@ -50,169 +51,173 @@ class Custom_widget_cart extends StatelessWidget {
           children: [
             Column(
               children: [
-                Row(children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: height / 9,
-                          width: width / 4,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2),
-                            borderRadius: BorderRadius.circular(2),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                imageURL,
+                SingleChildScrollView(
+                  //remove this after fixing the size issue of cart item
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: height / 9,
+                            width: width / 4,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              borderRadius: BorderRadius.circular(2),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  imageURL,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            height: height / 18,
-                            width: width / 4,
-                            decoration:
-                                BoxDecoration(border: Border.all(width: 2)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Center(
-                                  child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InkWell(
-                                    onTap: qtyincrement,
-                                    child: Text(
-                                      '+',
-                                      style: TextStyle(
-                                        fontSize: height / 35,
+                        Row(
+                          children: [
+                            Container(
+                              height: height / 18,
+                              width: width / 4,
+                              decoration:
+                                  BoxDecoration(border: Border.all(width: 2)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Center(
+                                    child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    InkWell(
+                                      onTap: qtyincrement,
+                                      child: Text(
+                                        '+',
+                                        style: TextStyle(
+                                          fontSize: height / 35,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Text('Qty   $quantityItem'),
-                                  InkWell(
-                                      onTap: qtydecrement,
-                                      child: Text('-',
-                                          style: TextStyle(
-                                              fontSize: height / 35))),
-                                ],
-                              )),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8, right: 8, top: 8, bottom: 5),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                              child: Text(
-                                'Delivery by $deliveryDate',
+                                    Text('Qty   $quantityItem'),
+                                    InkWell(
+                                        onTap: qtydecrement,
+                                        child: Text('-',
+                                            style: TextStyle(
+                                                fontSize: height / 35))),
+                                  ],
+                                )),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 25),
-                        child: Text(
-                          freeDelivery,
-                          style: TextStyle(
-                              fontSize: height / 65,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 0, left: 0),
-                          child: Container(
-                            height: height / 19,
-                            width: width / 1.6,
-                            child: Text(
-                              itemName,
-                              style: TextStyle(
-                                  fontSize: height / 40,
-                                  color: Color.fromARGB(166, 0, 0, 0),
-                                  // overflow: TextOverflow.ellipsis,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          padding: const EdgeInsets.only(
+                              left: 8, right: 8, top: 8, bottom: 5),
                           child: Row(
                             children: [
-                              Icon(Icons.star,
-                                  color: Colors.blue, size: height / 35),
-                              Icon(Icons.star,
-                                  color: Colors.blue, size: height / 35),
-                              Icon(Icons.star,
-                                  color: Colors.blue, size: height / 35),
-                              Icon(Icons.star,
-                                  color: Colors.blue, size: height / 35),
-                              Icon(Icons.star_border,
-                                  color: Colors.grey, size: height / 35),
-                              SizedBox(width: 5),
-                              Text(
-                                rating,
-                                style: TextStyle(
-                                    fontSize: height / 45,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue),
-                              )
+                              SizedBox(
+                                height: 20,
+                                child: Text(
+                                  'Delivery by $deliveryDate',
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        Column(
-                          children: [
-                            Row(
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 25),
+                          child: Text(
+                            freeDelivery,
+                            style: TextStyle(
+                                fontSize: height / 65,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 0, left: 0),
+                            child: SizedBox(
+                              height: height / 19,
+                              width: width / 1.6,
+                              child: Text(
+                                itemName,
+                                style: TextStyle(
+                                    fontSize: height / 40,
+                                    color: const Color.fromARGB(166, 0, 0, 0),
+                                    // overflow: TextOverflow.ellipsis,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: Row(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 80),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '\$ $itemPrice',
-                                        style: TextStyle(
-                                            fontSize: height / 33,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
-                                      Text(
-                                        ' $discount % off ',
-                                        style: GoogleFonts.oswald(
-                                            fontSize: height / 50,
-                                            color:
-                                                Color.fromARGB(255, 0, 153, 3),
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 12,
-                                ),
+                                Icon(Icons.star,
+                                    color: Colors.blue, size: height / 40),
+                                Icon(Icons.star,
+                                    color: Colors.blue, size: height / 40),
+                                Icon(Icons.star,
+                                    color: Colors.blue, size: height / 40),
+                                Icon(Icons.star,
+                                    color: Colors.blue, size: height / 40),
+                                Icon(Icons.star_border,
+                                    color: Colors.grey, size: height / 40),
+                                const SizedBox(width: 5),
+                                Text(
+                                  rating,
+                                  style: TextStyle(
+                                      fontSize: height / 45,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue),
+                                )
                               ],
                             ),
-                          ],
-                        ),
-                      ]),
-                ]),
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 80),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '\$ $itemPrice',
+                                          style: TextStyle(
+                                              fontSize: height / 33,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          ' $discount % off ',
+                                          style: GoogleFonts.oswald(
+                                              fontSize: height / 55,
+                                              color: const Color.fromARGB(
+                                                  255, 0, 153, 3),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ]),
+                  ]),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
                   child: Container(
@@ -230,9 +235,18 @@ class Custom_widget_cart extends StatelessWidget {
                 child: InkWell(
                   onTap: itemTapped,
                   child: Container(
+                    height: 35,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(
+                        color: Colors.grey.shade500,
+                        width: 2,
+                      ),
+                    ),
                     child: Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 50,
                         ),
                         Text('Remove',
@@ -246,15 +260,6 @@ class Custom_widget_cart extends StatelessWidget {
                           color: Colors.grey.shade500,
                         ),
                       ],
-                    ),
-                    height: 35,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(
-                        color: Colors.grey.shade500,
-                        width: 2,
-                      ),
                     ),
                   ),
                 ),

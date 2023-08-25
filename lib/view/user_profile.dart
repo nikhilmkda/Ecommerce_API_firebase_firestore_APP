@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_e_commerse_app_with_api/controller/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../controller/user_profile_provider.dart';
 import '../user_details/get_user_data.dart';
@@ -13,7 +11,7 @@ import '../user_details/google_sign_in.dart';
 class ProfilePage extends StatefulWidget {
   final String userId;
 
-  ProfilePage({required this.userId});
+  const ProfilePage({super.key, required this.userId});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -21,7 +19,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late DocumentSnapshot _userProfile;
-
+  bool isGoogleSignIn = false;
   @override
   void initState() {
     super.initState();
@@ -129,15 +127,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                       final data = snapshot.data!;
                                       final photoUrl =
                                           data['photoUrl'] as String;
+                                     
                                       return CircleAvatar(
                                         radius: 120,
                                         backgroundImage: NetworkImage(photoUrl),
                                       );
                                     } else {
-                                      return CircleAvatar(
+                                      return const CircleAvatar(
                                         radius: 120,
                                         backgroundImage: NetworkImage(
-                                            'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'),
+                                            'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png'),
                                       );
                                     }
                                   },
@@ -169,84 +168,84 @@ class _ProfilePageState extends State<ProfilePage> {
                             return const SizedBox.shrink();
                           },
                         ),
-                        // StreamBuilder<DocumentSnapshot>(
-                        //   stream: FirebaseFirestore.instance
-                        //       .collection('users')
-                        //       .doc(widget.userId)
-                        //       .snapshots(),
-                        //   builder: (context, snapshot) {
-                        //     if (snapshot.hasData) {
-                        //       final data =
-                        //           snapshot.data!.data() as Map<String, dynamic>;
-                        //       final photoUrl = data['photoUrl'] as String;
-                        //       return CircleAvatar(
-                        //         radius: 120,
-                        //         backgroundImage: NetworkImage(photoUrl),
-                        //       );
-                        //     } else {
-                        //       return const Center(
-                        //         child: CircularProgressIndicator(),
-                        //       );
-                        //     }
-                        //   },
-                        // ),
-
                         Positioned(
                           bottom: 25.0,
                           right: 0.0,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.camera_alt,
-                              color: Colors.white70,
-                              size: 40,
+                          child: Visibility(
+                            visible:
+                                !isGoogleSignIn, // Hide the IconButton when isGoogleSignIn is true
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.camera_alt,
+                                color: Colors.white70,
+                                size: 40,
+                              ),
+                              onPressed: () {
+                                userDetails.requestStoragePermission();
+                                userDetails.uploadProfilePicture(widget.userId);
+                                // userDetails.dpimageUser(widget.userId);
+                              },
                             ),
-                            onPressed: () {
-                              userDetails.dpimageUser(widget.userId);
-                            },
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: height / 10,
+                  height: height / 15,
                 ),
                 SizedBox(
                   height: height * 0.08,
-                  child: TextFormField(
-                    controller: Provider.of<Userdetailsprovider>(context)
-                        .usernameController,
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Username',
-                      labelStyle: TextStyle(
-                        color: Colors.white60,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white24,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
+                  child: Consumer<Userdetailsprovider>(
+                    builder: (context, userProvider, child) {
+                      final TextEditingController usernameController =
+                          userProvider.usernameController;
+                      final authUser = FirebaseAuth.instance.currentUser;
+
+                      if (authUser != null) {
+                        isGoogleSignIn = authUser.providerData.any(
+                            (provider) => provider.providerId == 'google.com');
+                      }
+
+                      return TextFormField(
+                        controller: usernameController,
+                        // enabled:
+                        //     !isGoogleSignIn, // Disable editing if signed in via Google
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
-                      ),
-                    ),
+                        decoration: const InputDecoration(
+                          labelText: 'Username',
+                          labelStyle: TextStyle(
+                            color: Colors.white60,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white24,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
+                const SizedBox(height: 10),
                 SizedBox(
                   height: height * 0.08,
                   child: TextFormField(
+                    keyboardType: TextInputType.phone,
                     controller: Provider.of<Userdetailsprovider>(context)
                         .phoneNumberController,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Phone Number',
                       labelStyle: TextStyle(
                         color: Colors.white60,
@@ -264,15 +263,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
                 SizedBox(
                   height: height * 0.08,
                   child: TextFormField(
                     controller: Provider.of<Userdetailsprovider>(context)
                         .addressController,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Address',
                       labelStyle: TextStyle(
                         color: Colors.white60,
@@ -290,16 +290,17 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
                 SizedBox(
                   height: height * 0.08,
                   child: TextFormField(
                     keyboardType: TextInputType.phone,
                     controller:
                         Provider.of<Userdetailsprovider>(context).ageController,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Age',
                       labelStyle: TextStyle(
                         color: Colors.white60,
@@ -324,13 +325,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Container(
                   width: MediaQuery.of(context).size.width * .93,
                   height: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [
                         Color.fromARGB(255, 255, 255, 255),
                         Color.fromARGB(255, 189, 189, 189),
@@ -368,27 +369,30 @@ class _ProfilePageState extends State<ProfilePage> {
                         });
                         // Display a success message
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
+                              backgroundColor: Colors.green,
                               content:
                                   Text('User profile updated successfully')),
                         );
                       } catch (e) {
                         print('Error updating user profile: $e');
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Error updating user profile: $e'),
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text('Error updating user profile'),
                         ));
                       }
                     },
-                    child: Text(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Text(
                       'Update Profile',
                       style: TextStyle(
                         color: Color(0xff161b27),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                 ),

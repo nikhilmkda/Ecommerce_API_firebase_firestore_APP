@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_e_commerse_app_with_api/controller/authPage.dart';
 import 'package:flutter_application_e_commerse_app_with_api/view/sign_up.dart';
 import 'package:http/http.dart' as http;
 
@@ -38,28 +39,26 @@ class DataProvider extends ChangeNotifier {
 
   void navigateToCart(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Cart_page()));
+        context, MaterialPageRoute(builder: (context) => const Cart_page()));
   }
 
   void navigateToHomepage(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MyHomePage()));
+        context, MaterialPageRoute(builder: (context) => const MyHomePage()));
   }
-
 
   void navigateToLoginPage(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
-
-  // void navigateToSIgnUp(BuildContext context) {
-  //   Navigator.push(
-  //       context, MaterialPageRoute(builder: (context) => SignUpPage()));
-  // }
 
   void navigateToSIgnupFirestore(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => SignUpScreen()));
   }
 
+  void navigateToAuthpage(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const AuthPage()));
+  }
 }

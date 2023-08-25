@@ -6,7 +6,7 @@ import '../controller/api_call.dart';
 import '../controller/hive_save.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
-class CustomWidget extends StatelessWidget {
+class ItemList extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String description;
@@ -14,8 +14,9 @@ class CustomWidget extends StatelessWidget {
   final String cost;
   final Function() itemTapped;
 
-  CustomWidget(
-      {required this.imageUrl,
+  const ItemList(
+      {super.key,
+      required this.imageUrl,
       required this.title,
       required this.itemTapped,
       required this.description,
@@ -39,13 +40,13 @@ class CustomWidget extends StatelessWidget {
     return InkWell(
       onTap: itemTapped,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color.fromARGB(255, 255, 255, 255),
           //borderRadius: BorderRadius.circular(25),
         ),
         width: 190,
         height: 200,
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 8,
           left: 8,
           right: 8,
@@ -66,7 +67,7 @@ class CustomWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Column(
@@ -78,7 +79,7 @@ class CustomWidget extends StatelessWidget {
                         fontSize: 17, fontWeight: FontWeight.bold),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
                     description,
                     overflow: TextOverflow.ellipsis,
@@ -101,16 +102,16 @@ class CustomWidget extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(' \$ $cost/-',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                           fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -125,7 +126,7 @@ class CustomWidget extends StatelessWidget {
   }
 }
 
-class CustomWidgetItemDetails extends StatelessWidget {
+class ItemDetailsWidget extends StatelessWidget {
   final String watchname;
   final String availability;
   final String watchbrandNameSmall;
@@ -140,8 +141,9 @@ class CustomWidgetItemDetails extends StatelessWidget {
 
   final List<String> imageURL;
 
-  CustomWidgetItemDetails(
-      {required this.watchprice,
+  const ItemDetailsWidget(
+      {super.key,
+      required this.watchprice,
       required this.rating,
       required this.discount,
       required this.availability,
@@ -189,7 +191,7 @@ class CustomWidgetItemDetails extends StatelessWidget {
         title: Text('Products',
             style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold)),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Color.fromARGB(255, 78, 78, 78),
@@ -201,7 +203,7 @@ class CustomWidgetItemDetails extends StatelessWidget {
           ),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
@@ -211,7 +213,7 @@ class CustomWidgetItemDetails extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
               color: Colors.white,
             ),
@@ -222,7 +224,7 @@ class CustomWidgetItemDetails extends StatelessWidget {
           Stack(
             children: [
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.shopping_cart,
                   color: Colors.white,
                 ),
@@ -247,18 +249,15 @@ class CustomWidgetItemDetails extends StatelessWidget {
         ],
       ),
       backgroundColor: Colors.grey.shade200,
-      body: Column(children: [
-        SingleChildScrollView(
-          child: Container(
-            height: height / 1.2265,
-            child: ListView(
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+            child: Column(
               children: [
-                SizedBox(
-                  height: 30,
-                ),
                 Stack(children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5, top: 0),
+                    padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
                     child: Container(
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -266,7 +265,8 @@ class CustomWidgetItemDetails extends StatelessWidget {
                             color: Colors.grey.withOpacity(0.1),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
                           ),
                         ],
                         color: Colors.white,
@@ -278,7 +278,7 @@ class CustomWidgetItemDetails extends StatelessWidget {
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 40, left: 20, right: 20),
-                    child: Container(
+                    child: SizedBox(
                       height: 250,
                       child: ImageSlideshow(
                         indicatorColor: Colors.blue,
@@ -295,401 +295,374 @@ class CustomWidgetItemDetails extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // decoration: BoxDecoration(
-                      //     //color: Colors.amber,
-                      //     borderRadius: BorderRadius.circular(25),
-                      //     image: DecorationImage(
-                      //         fit: BoxFit.fitHeight,
-                      //         image: NetworkImage(imageURL[2]))),
                     ),
                   ),
                 ]),
-                SizedBox(
-                  height: 10,
-                ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Container(
-                        height: height / 1.75,
-                        child: Column(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 10, bottom: 15),
-                              child: SizedBox(
-                                height: height / 18,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        watchname,
-                                        style: TextStyle(
-                                            fontSize: height / 30,
-                                            color: Color.fromARGB(166, 0, 0, 0),
-                                            fontWeight: FontWeight.bold),
-                                        maxLines: null,
-                                        overflow: TextOverflow.visible,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: SizedBox(
-                                height: 20,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      watchbrandNameSmall,
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8, top: 8),
-                              child: Container(
-                                height: 60,
-                                width: double.infinity,
-                                color: Color.fromARGB(255, 204, 255, 205),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8, bottom: 8, right: 8),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        ' \$ $watchprice ',
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        ' $discount % off ',
-                                        style: GoogleFonts.oswald(
-                                            fontSize: 20,
-                                            color:
-                                                Color.fromARGB(255, 0, 153, 3),
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.star,
-                                              color: Colors.blue, size: 20),
-                                          Icon(Icons.star,
-                                              color: Colors.blue, size: 20),
-                                          Icon(Icons.star,
-                                              color: Colors.blue, size: 20),
-                                          Icon(Icons.star,
-                                              color: Colors.blue, size: 20),
-                                          Icon(Icons.star_border,
-                                              color: Colors.grey, size: 20),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            rating,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.blue),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 30,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.local_shipping_outlined,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    ' Free Shipping Across India',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade800,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.repeat_rounded,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    ' 7 Day Exchange',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade800,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.store_mall_directory_outlined,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    ' 24 Months Warranty',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade800,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            //the grey line
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, right: 15, top: 5, bottom: 5),
-                              child: Container(
-                                height: 2,
-                                color: Colors.grey.shade300,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 35,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Product Details:',
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 51, 51, 51),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  SizedBox(
-                                    width: 350,
-                                    child: Text(
-                                      description,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.grey),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 60),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  Text(
-                                    'Type',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                  Text(
-                                    catagory,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color.fromARGB(255, 48, 48, 48)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 60),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  Text(
-                                    'Domestic Warranty',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                  Text(
-                                    '6 Months',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color.fromARGB(255, 48, 48, 48)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 60),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  Text(
-                                    'Made in',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                  Text(
-                                    'China',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color.fromARGB(255, 48, 48, 48)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 60),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  Text(
-                                    'Stock',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                  Text(
-                                    '$availability Items',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color.fromARGB(255, 48, 48, 48)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 15),
+                  child: SizedBox(
+                    height: height / 18,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            watchname,
+                            style: TextStyle(
+                                fontSize: height / 30,
+                                color: const Color.fromARGB(166, 0, 0, 0),
+                                fontWeight: FontWeight.bold),
+                            maxLines: null,
+                            overflow: TextOverflow.visible,
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: SizedBox(
+                    height: 20,
+                    child: Row(
+                      children: [
+                        Text(
+                          watchbrandNameSmall,
+                          style: const TextStyle(
+                              color: Colors.grey, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 8,
+                    top: 8,
+                  ),
+                  child: Container(
+                    height: 60,
+                    width: double.infinity,
+                    color: const Color.fromARGB(255, 204, 255, 205),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                        bottom: 8,
+                        right: 8,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            ' \$ $watchprice ',
+                            style: const TextStyle(
+                                fontSize: 30,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            ' $discount % off ',
+                            style: GoogleFonts.oswald(
+                                fontSize: 20,
+                                color: const Color.fromARGB(255, 0, 153, 3),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            children: [
+                              const Icon(Icons.star,
+                                  color: Colors.blue, size: 20),
+                              const Icon(Icons.star,
+                                  color: Colors.blue, size: 20),
+                              const Icon(Icons.star,
+                                  color: Colors.blue, size: 20),
+                              const Icon(Icons.star,
+                                  color: Colors.blue, size: 20),
+                              const Icon(Icons.star_border,
+                                  color: Colors.grey, size: 20),
+                              const SizedBox(width: 5),
+                              Text(
+                                rating,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue),
+                              )
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
+                SizedBox(
+                  height: 30,
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.local_shipping_outlined,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        ' Free Shipping Across India',
+                        style: TextStyle(
+                          color: Colors.grey.shade800,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.repeat_rounded,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        ' 7 Day Exchange',
+                        style: TextStyle(
+                          color: Colors.grey.shade800,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.store_mall_directory_outlined,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        ' 24 Months Warranty',
+                        style: TextStyle(
+                          color: Colors.grey.shade800,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                //the grey line
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, top: 5, bottom: 5),
+                  child: Container(
+                    height: 2,
+                    color: Colors.grey.shade300,
+                  ),
+                ),
+                const SizedBox(
+                  height: 35,
+                  child: Row(
+                    children: [
+                      Text(
+                        'Product Details:',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 51, 51, 51),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: width / 1.06,
+                        child: Text(
+                          description,
+                          softWrap: true,
+                          style:
+                              const TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Text(
+                        'Type',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      Text(
+                        catagory,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(255, 48, 48, 48)),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(right: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Text(
+                        'Domestic Warranty',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      Text(
+                        '6 Months',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(255, 48, 48, 48)),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(right: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Text(
+                        'Made in',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      Text(
+                        'China',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(255, 48, 48, 48)),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Text(
+                        'Stock',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      Text(
+                        '$availability Items',
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(255, 48, 48, 48)),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                )
               ],
             ),
           ),
-        ),
-        Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.blue.shade800,
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: Center(
-                child: Text(
-                  'Buy now',
-                  style: TextStyle(
-                      fontSize: 22,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              height: height / 13.2,
-              width: width / 2,
-            ),
-            InkWell(
-              onTap: tapped,
-              child: Container(
+          Row(
+            children: [
+              Container(
                 decoration: BoxDecoration(
-                  color: Colors.white54,
+                  color: Colors.blue.shade800,
                   boxShadow: [
                     BoxShadow(
-                      color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
+                      color:
+                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
                 height: height / 13.2,
                 width: width / 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'Add to Cart',
-                        style: TextStyle(
-                            fontSize: 22,
-                            color: Color.fromARGB(203, 0, 0, 0),
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 8, right: 8, bottom: 8),
-                      child: Icon(Icons.shopping_cart_outlined),
-                    )
-                  ],
+                child: const Center(
+                  child: Text(
+                    'Buy now',
+                    style: TextStyle(
+                        fontSize: 22,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
-            ),
-          ],
-        )
-      ]),
+              InkWell(
+                onTap: tapped,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white54,
+                    boxShadow: [
+                      BoxShadow(
+                        color:
+                            const Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset:
+                            const Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  height: height / 13.2,
+                  width: width / 2,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Add to Cart',
+                          style: TextStyle(
+                              fontSize: 22,
+                              color: Color.fromARGB(203, 0, 0, 0),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 8, right: 8, bottom: 8),
+                        child: Icon(Icons.shopping_cart_outlined),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

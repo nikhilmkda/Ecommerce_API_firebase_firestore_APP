@@ -1,9 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
-
-import 'image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -30,34 +31,83 @@ class Userdetailsprovider with ChangeNotifier {
   }
 
   String? userFace;
+  String _profilePictureUrl = '';
+  String get profilePictureUrl => _profilePictureUrl;
 
-  dpimageUser(uid) async {
-    userFace = await pickImage(uid);
-    notifyListeners();
-  }
-
-  static Future<String?> pickImage(String userId) async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future<void> uploadProfilePicture(userid) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      final file = File(pickedFile.path);
-      final ref = FirebaseStorage.instance
+      String userId = userid; // ... retrieve the current user's UID;
+
+      final Reference storageRef = firebase_storage.FirebaseStorage.instance
           .ref()
-          .child('profilePictures/${const Uuid().v4()}');
-      await ref.putFile(file);
+          .child('profile_pictures')
+          .child(userId + '.jpg');
 
-      // Get the download URL of the uploaded image
-      final imageUrl = await ref.getDownloadURL();
+      await storageRef.putFile(File(pickedFile.path));
+      print('Profile picture uploaded');
 
-      // Save the download URL to Firestore under the user's document
-      await FirebaseFirestore.instance.collection('users').doc(userId).update({
-        'photoUrl': imageUrl,
-      });
-
-      return imageUrl;
+      await loadProfilePicture(userId);
     } else {
-      return null;
+      print('No image selected');
     }
   }
+
+  Future<void> loadProfilePicture(String userId) async {
+    try {
+      final Reference storageRef = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('profile_pictures')
+          .child(userId + '.jpg');
+
+      final url = await storageRef.getDownloadURL();
+      _profilePictureUrl = url;
+      notifyListeners();
+    } catch (e) {
+      print('Error loading profile picture: $e');
+    }
+  }
+
+  Future<void> requestStoragePermission() async {
+    final PermissionStatus status = await Permission.storage.request();
+    print('Storage Permission Status: $status');
+  }
+
+  // dpimageUser(uid) async {
+  //   userFace = await pickImage(uid);
+
+  //   notifyListeners();
+  // }
+
+  // static Future<String?> pickImage(String userId) async {
+  //   try {
+  //     final pickedFile =
+  //         await ImagePicker().pickImage(source: ImageSource.gallery);
+
+  //     if (pickedFile != null) {
+  //       final file = File(pickedFile.path);
+  //       final ref = FirebaseStorage.instance
+  //           .ref()
+  //           .child('profilePictures/${const Uuid().v4()}');
+  //       await ref.putFile(file);
+
+  //       final imageUrl = await ref.getDownloadURL();
+  //       await FirebaseFirestore.instance
+  //           .collection('users')
+  //           .doc(userId)
+  //           .update({
+  //         'photoUrl': imageUrl,
+  //       });
+
+  //       return imageUrl;
+  //     } else {
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     print('Error picking image: $e');
+  //     return null;
+  //   }
+  // }
 }
