@@ -4,31 +4,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class UserDataProvider extends ChangeNotifier {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+
+  // Getter methods for the controllers
+  TextEditingController get usernameController => _usernameController;
+  TextEditingController get phoneNumberController => _phoneNumberController;
+  TextEditingController get addressController => _addressController;
+  TextEditingController get ageController => _ageController;
+
+  // Helper method to clear all form field controllers
+  void clearFormFields() {
+    _usernameController.clear();
+    _phoneNumberController.clear();
+    _addressController.clear();
+    _ageController.clear();
+
+    notifyListeners();
+  }
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-   
-              
-
-  Future<void> signUpWithEmailAndPassword(
-      String email, String password, String fullName, String photoUrl) async {
-    try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      await _firestore
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .set({'fullName': fullName, 'email': email, 'photoUrl': photoUrl});
-    } catch (e) {
-      print('Failed to create user with email and password: $e');
-      // Display error message
-    }
-  }
 
   String? fullName;
   String? email;
@@ -45,14 +47,13 @@ class UserDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<Map<String, dynamic>> getUserData() async* {
+  Stream<Map<String, dynamic>> getUserDetailspswd() async* {
     final User? user = _auth.currentUser;
     if (user != null) {
-      yield* _firestore
-          .collection('users')
-          .doc(user.uid)
-          .snapshots()
-          .map((documentSnapshot) {
+      try {
+        final DocumentSnapshot documentSnapshot =
+            await _firestore.collection('users').doc(user.uid).get();
+
         if (documentSnapshot.exists) {
           final data = documentSnapshot.data() as Map<String, dynamic>;
 
@@ -62,11 +63,13 @@ class UserDataProvider extends ChangeNotifier {
 
           notifyListeners();
 
-          return data;
+          yield data;
         } else {
           throw StateError('User data does not exist');
         }
-      });
+      } catch (error) {
+        throw StateError('Error fetching user data: $error');
+      }
     } else {
       throw StateError('User is not authenticated');
     }
@@ -74,7 +77,7 @@ class UserDataProvider extends ChangeNotifier {
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-    Stream<Map<String, dynamic>> getUserDetailsgoogle() async* {
+  Stream<Map<String, dynamic>> getUserDetailsgoogle() async* {
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
@@ -92,5 +95,10 @@ class UserDataProvider extends ChangeNotifier {
     } else {
       throw StateError('Failed to sign in with Google');
     }
+  }
+
+  Future<void> requestStoragePermission() async {
+    final PermissionStatus status = await Permission.storage.request();
+    print('Storage Permission Status: $status');
   }
 }

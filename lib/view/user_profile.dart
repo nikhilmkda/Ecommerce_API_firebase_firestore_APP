@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/user_profile_provider.dart';
+import '../controller/userdpprovider.dart';
 import '../user_details/get_user_data.dart';
 import '../user_details/google_sign_in.dart';
 
@@ -35,18 +35,18 @@ class _ProfilePageState extends State<ProfilePage> {
           setState(() {
             _userProfile = documentSnapshot;
 
-            Provider.of<Userdetailsprovider>(context, listen: false)
+            Provider.of<UserDataProvider>(context, listen: false)
                 .usernameController
-                .text = _userProfile['fullName'];
-            Provider.of<Userdetailsprovider>(context, listen: false)
+                .text = _userProfile['fullName'] ?? '';
+            Provider.of<UserDataProvider>(context, listen: false)
                 .phoneNumberController
-                .text = _userProfile['phone_number'];
-            Provider.of<Userdetailsprovider>(context, listen: false)
+                .text = _userProfile['phone_number'] ?? '';
+            Provider.of<UserDataProvider>(context, listen: false)
                 .addressController
-                .text = _userProfile['address'];
-            Provider.of<Userdetailsprovider>(context, listen: false)
+                .text = _userProfile['address'] ?? '';
+            Provider.of<UserDataProvider>(context, listen: false)
                 .ageController
-                .text = _userProfile['age'].toString();
+                .text = _userProfile['age']?.toString() ?? '';
           });
         }
       });
@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final getuser = Provider.of<UserDataProvider>(context);
-    final userDetails = Provider.of<Userdetailsprovider>(context);
+    final userDetails = Provider.of<UserDPprovider>(context);
     final googleUser = Provider.of<GoogleSignInProvider>(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -127,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       final data = snapshot.data!;
                                       final photoUrl =
                                           data['photoUrl'] as String;
-                                     
+
                                       return CircleAvatar(
                                         radius: 120,
                                         backgroundImage: NetworkImage(photoUrl),
@@ -145,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   provider.providerId == 'password')) {
                                 // User signed in with email/password
                                 return StreamBuilder<Map<String, dynamic>>(
-                                  stream: userDataProvider.getUserData(),
+                                  stream: userDataProvider.getUserDetailspswd(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       final data = snapshot.data!;
@@ -181,8 +181,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 size: 40,
                               ),
                               onPressed: () {
-                                userDetails.requestStoragePermission();
-                                userDetails.uploadProfilePicture(widget.userId);
+                                getuser.requestStoragePermission();
+                                userDetails.getImage();
                                 // userDetails.dpimageUser(widget.userId);
                               },
                             ),
@@ -197,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(
                   height: height * 0.08,
-                  child: Consumer<Userdetailsprovider>(
+                  child: Consumer<UserDataProvider>(
                     builder: (context, userProvider, child) {
                       final TextEditingController usernameController =
                           userProvider.usernameController;
@@ -240,7 +240,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: height * 0.08,
                   child: TextFormField(
                     keyboardType: TextInputType.phone,
-                    controller: Provider.of<Userdetailsprovider>(context)
+                    controller: Provider.of<UserDataProvider>(context)
                         .phoneNumberController,
                     style: const TextStyle(
                       color: Colors.white,
@@ -267,7 +267,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(
                   height: height * 0.08,
                   child: TextFormField(
-                    controller: Provider.of<Userdetailsprovider>(context)
+                    controller: Provider.of<UserDataProvider>(context)
                         .addressController,
                     style: const TextStyle(
                       color: Colors.white,
@@ -296,7 +296,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: TextFormField(
                     keyboardType: TextInputType.phone,
                     controller:
-                        Provider.of<Userdetailsprovider>(context).ageController,
+                        Provider.of<UserDataProvider>(context).ageController,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -348,20 +348,19 @@ class _ProfilePageState extends State<ProfilePage> {
                             .collection('users')
                             .doc(widget.userId)
                             .update({
-                          'fullName': Provider.of<Userdetailsprovider>(context,
+                          'fullName': Provider.of<UserDataProvider>(context,
                                   listen: false)
                               .usernameController
                               .text,
-                          'phone_number': Provider.of<Userdetailsprovider>(
-                                  context,
+                          'phone_number': Provider.of<UserDataProvider>(context,
                                   listen: false)
                               .phoneNumberController
                               .text,
-                          'address': Provider.of<Userdetailsprovider>(context,
+                          'address': Provider.of<UserDataProvider>(context,
                                   listen: false)
                               .addressController
                               .text,
-                          'age': int.parse(Provider.of<Userdetailsprovider>(
+                          'age': int.parse(Provider.of<UserDataProvider>(
                                   context,
                                   listen: false)
                               .ageController

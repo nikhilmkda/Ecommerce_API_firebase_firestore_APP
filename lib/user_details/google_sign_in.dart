@@ -1,21 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-final User? currentUser = FirebaseAuth.instance.currentUser;
-final String uid = currentUser!.uid;
 
 class GoogleSignInProvider extends ChangeNotifier {
   bool isGoogleSignIn = false;
 
-    bool get googleSignInbool => isGoogleSignIn;
+  bool get googleSignInbool => isGoogleSignIn;
 
   void setGoogleSignIn(bool value) {
     isGoogleSignIn = value;
     notifyListeners();
   }
+
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   GoogleSignInAccount? _user;
 
@@ -33,9 +33,21 @@ class GoogleSignInProvider extends ChangeNotifier {
         idToken: googleAuth.idToken,
       );
 
-      await auth.signInWithCredential(credential);
+      final UserCredential authResult =
+          await auth.signInWithCredential(credential);
 
       _user = user;
+
+      // Check if the user document exists in Firestore, if not, create one.
+      final userDocument =
+          await firestore.collection('users').doc(authResult.user!.uid).get();
+      if (!userDocument.exists) {
+        await firestore.collection('users').doc(authResult.user!.uid).set({
+          'fullName': authResult.user!.displayName,
+          'email': authResult.user!.email,
+          // Add any other user data you want to store in Firestore.
+        });
+      }
 
       notifyListeners();
     } catch (error) {
@@ -44,7 +56,6 @@ class GoogleSignInProvider extends ChangeNotifier {
   }
 
   Future logout() async {
-    // await auth.signOut();
     await FirebaseAuth.instance.signOut();
     googleSignIn.signOut();
 

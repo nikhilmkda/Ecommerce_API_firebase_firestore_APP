@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'controller/api_call.dart';
 
 import 'controller/authPage.dart';
-import 'controller/user_profile_provider.dart';
+import 'controller/userdpprovider.dart';
 import 'view/homepage.dart';
 import 'view/log_in_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HiveHelper()),
@@ -42,14 +41,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
         ChangeNotifierProvider(create: (_) => UserDataProvider()),
         ChangeNotifierProvider(create: (_) => PasswordSigninProvider()),
-        ChangeNotifierProvider<Userdetailsprovider>(
-          create: (context) => Userdetailsprovider(),
-        ),
+        ChangeNotifierProvider(create: (_) => UserDPprovider()),
       ],
       child: const MaterialApp(
-        
           debugShowCheckedModeBanner: false, title: 'My App', home: AuthPage()),
     );
-    
   }
 }

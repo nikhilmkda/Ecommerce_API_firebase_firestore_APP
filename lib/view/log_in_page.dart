@@ -156,7 +156,7 @@ class LoginScreen extends StatelessWidget {
                               Provider.of<PasswordSigninProvider>(context,
                                   listen: false);
                           passwordUser.handlePasswordLogin(context);
-                          getuser.getUserData();
+                          getuser.getUserDetailspswd();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -205,8 +205,17 @@ class LoginScreen extends StatelessWidget {
                         onPressed: () async {
                           try {
                             await authenticationProvider.googleLogin().then(
-                                (value) =>
-                                    dataProvider.navigateToAuthpage(context));
+                              (value) {
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //   SnackBar(
+                                //     backgroundColor: Colors.green,
+                                //     content: Text(
+                                //         'Successfully signed in with Google'),
+                                //   ),
+                                // );
+                                dataProvider.navigateToAuthpage(context);
+                              },
+                            );
                           } catch (error) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

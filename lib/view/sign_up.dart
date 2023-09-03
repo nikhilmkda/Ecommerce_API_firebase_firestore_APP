@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
-import '../user_details/get_user_data.dart';
+import '../user_details/passwordSignin.dart';
 
 class SignUpScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -13,47 +13,43 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController _fullNameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
-    final getuser = Provider.of<UserDataProvider>(context);
+
+    final pswdUser = Provider.of<PasswordSigninProvider>(context);
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Sign Up',
-            style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold)),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 78, 78, 78),
-                Color.fromARGB(255, 34, 32, 27),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: Text('Sign Up',
+      //       style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold)),
+      //   flexibleSpace: Container(
+      //     decoration: const BoxDecoration(
+      //       gradient: LinearGradient(
+      //         colors: [Colors.black87, Colors.black],
+      //         begin: Alignment.topLeft,
+      //         end: Alignment.bottomRight,
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Container(
           height: height,
           decoration: const BoxDecoration(
-            // image: DecorationImage(
-            //     image: NetworkImage(
-            //         'https://mebincdn.themebin.com/1664962508289.png'),
-            //     fit: BoxFit.cover),
+            image: DecorationImage(
+                image: NetworkImage(
+                    'https://mebincdn.themebin.com/1664962508289.png'),
+                fit: BoxFit.cover),
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 0, 18, 60),
-                Color.fromARGB(255, 9, 0, 110),
+                Color.fromARGB(255, 78, 78, 78),
+                Color.fromARGB(255, 34, 32, 27),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -63,11 +59,14 @@ class SignUpScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
+                  SizedBox(
+                    height: 30,
+                  ),
                   Container(
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(
-                              'https://png.pngtree.com/png-clipart/20220125/original/pngtree-shopping-cart-element-full-of-goods-png-image_7220904.png'),
+                              'https://niceillustrations.com/wp-content/uploads/2020/09/Person-With-Shopping-Cart.png'),
                           fit: BoxFit.contain),
                     ),
                     height: height / 2.5,
@@ -196,7 +195,7 @@ class SignUpScreen extends StatelessWidget {
                             child: MaterialButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  getuser
+                                  pswdUser
                                       .signUpWithEmailAndPassword(
                                         _emailController.text,
                                         _passwordController.text,
@@ -220,9 +219,10 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 60),
+                          const SizedBox(height: 50),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               const Text(
                                 'Already have an account ? ',
@@ -238,9 +238,9 @@ class SignUpScreen extends StatelessWidget {
                                   dataProvider.navigateToLoginPage(context);
                                 },
                                 child: const Text(
-                                  'Sign in',
+                                  'Login',
                                   style: TextStyle(
-                                    color: Colors.blue,
+                                    color: Color.fromARGB(255, 202, 231, 255),
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,

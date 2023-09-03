@@ -43,7 +43,6 @@ class HiveHelper with ChangeNotifier {
     notifyListeners();
   }
 
-  
   Future<void> saveItemPriceHive() async {
     final intBoxprice = await Hive.openBox<List<int>>('intPrice');
     await intBoxprice.put('Price', totalcartPrice);
@@ -68,12 +67,12 @@ class HiveHelper with ChangeNotifier {
     final intListBox = await Hive.openBox<List<int>>('intCart');
     final intBoxprice = await Hive.openBox<List<int>>('intPrice');
     final intBoxitemCount = await Hive.openBox<List<int>>('intitemCount');
-    print('Box is open: ${intListBox.isOpen}');
+    // print('Box is open: ${intListBox.isOpen}');
     final itemscart = intListBox.get('Cart') ?? <int>[];
     final totalcartPrice = intBoxprice.get('Price') ?? <int>[];
     final itemQTyList = intBoxitemCount.get('count') ?? <int>[];
-    print('the get values are $itemscart');
-    print('the get prices are $totalcartPrice');
+    //  print('the get values are $itemscart');
+    // print('the get prices are $totalcartPrice');
     notifyListeners();
     return {
       'itemscart': itemscart,

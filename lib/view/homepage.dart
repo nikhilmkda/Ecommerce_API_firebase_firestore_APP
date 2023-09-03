@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import '../controller/user_profile_provider.dart';
+import '../controller/userdpprovider.dart';
 import 'costom_widget.dart';
 
 import '../controller/api_call.dart';
@@ -27,7 +27,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-   
 
     Future.delayed(Duration.zero, () {
       Provider.of<DataProvider>(context, listen: false).fetchData();
@@ -41,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final hivecall = Provider.of<HiveHelper>(context);
     final getuser = Provider.of<UserDataProvider>(context);
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
-    final userDetails = Provider.of<Userdetailsprovider>(context);
+
     var itemsOfAPI = dataProvider.productsofproduct;
 
     return Scaffold(
@@ -59,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (snapshot.hasData) {
                     final data = snapshot.data!;
                     return DrawerScreen('${data['name']}', '${data['email']}',
-                        data['photoUrl']);
+                        data['photoUrl']??'');
                   } else {
                     return const DrawerScreen(
                         'User not found',
@@ -72,12 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 .any((provider) => provider.providerId == 'password')) {
               // User signed in with email/password
               return StreamBuilder<Map<String, dynamic>>(
-                stream: userDataProvider.getUserData(),
+                stream: userDataProvider.getUserDetailspswd(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final data = snapshot.data!;
                     return DrawerScreen('${data['fullName']}',
-                        '${data['email']}', data['photoUrl']);
+                        '${data['email']}', data['photoUrl'] ?? '');
                   } else {
                     return const DrawerScreen(
                         'User not found',
@@ -129,7 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Stack(
             children: [
-              
               IconButton(
                 icon: const Icon(
                   Icons.shopping_cart,

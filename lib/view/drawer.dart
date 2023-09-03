@@ -6,7 +6,7 @@ import 'package:flutter_application_e_commerse_app_with_api/view/user_profile.da
 import 'package:provider/provider.dart';
 
 import '../controller/api_call.dart';
-import '../controller/user_profile_provider.dart';
+import '../controller/userdpprovider.dart';
 import '../user_details/passwordSignin.dart';
 
 class DrawerScreen extends StatelessWidget {
@@ -20,7 +20,7 @@ class DrawerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
     final passwordUser = Provider.of<PasswordSigninProvider>(context);
-    final userData = Provider.of<Userdetailsprovider>(context);
+   
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
     final getuser = Provider.of<UserDataProvider>(context);
 
@@ -105,7 +105,7 @@ class DrawerScreen extends StatelessWidget {
             ),
             onTap: () => authenticationProvider
                 .logout()
-                .then((value) => userData.clearFormFields())
+                .then((value) => getuser.clearFormFields())
                 .then((value) => passwordUser.clearFormFields())
                 .then((value) => dataProvider.navigateToLoginPage(context)),
           ),
