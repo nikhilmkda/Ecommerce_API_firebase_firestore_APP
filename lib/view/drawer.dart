@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../controller/api_call.dart';
 import '../controller/userdpprovider.dart';
 import '../user_details/passwordSignin.dart';
+import 'notification_page.dart';
 
 class DrawerScreen extends StatelessWidget {
   final String fullName;
@@ -20,7 +21,7 @@ class DrawerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
     final passwordUser = Provider.of<PasswordSigninProvider>(context);
-   
+
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
     final getuser = Provider.of<UserDataProvider>(context);
 
@@ -62,12 +63,25 @@ class DrawerScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                print(uid);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ProfilePage(userId: uid)));
               }),
+          ListTile(
+            leading: const Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+            title: const Text(
+              'Notifications',
+              style: TextStyle(color: Colors.white),
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => NotificationPage()));
+            },
+          ),
           ListTile(
             leading: const Icon(
               Icons.settings,

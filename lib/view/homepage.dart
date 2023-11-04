@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_e_commerse_app_with_api/user_details/get_user_data.dart';
 import 'package:flutter_application_e_commerse_app_with_api/user_details/google_sign_in.dart';
 import 'package:flutter_application_e_commerse_app_with_api/progress_indicator.dart/colors.dart';
+import 'package:flutter_application_e_commerse_app_with_api/view/item_detailed_screen.dart';
+import 'package:flutter_application_e_commerse_app_with_api/view/item_list_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import '../controller/userdpprovider.dart';
-import 'costom_widget.dart';
 
 import '../controller/api_call.dart';
 import 'drawer.dart';
@@ -38,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
     final hivecall = Provider.of<HiveHelper>(context);
-    final getuser = Provider.of<UserDataProvider>(context);
+    
     final authenticationProvider = Provider.of<GoogleSignInProvider>(context);
 
     var itemsOfAPI = dataProvider.productsofproduct;
@@ -58,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (snapshot.hasData) {
                     final data = snapshot.data!;
                     return DrawerScreen('${data['name']}', '${data['email']}',
-                        data['photoUrl']??'');
+                        data['photoUrl'] ?? '');
                   } else {
                     return const DrawerScreen(
                         'User not found',
@@ -192,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, childAspectRatio: 0.9),
                       itemCount: itemsOfAPI.length,
-                      itemBuilder: (context, index) => ItemList(
+                      itemBuilder: (context, index) => ItemListScreen(
                         imageUrl: itemsOfAPI[index].images.first,
                         title: itemsOfAPI[index].title,
                         description: itemsOfAPI[index].brand,
@@ -202,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ItemDetailsWidget(
+                                  builder: (context) => ItemDetailedScreen(
                                         watchprice:
                                             itemsOfAPI[index].price.toString(),
                                         rating:
